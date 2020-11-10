@@ -1,9 +1,11 @@
+
 import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Random;
 
-public abstract class Graph implements GraphI, Comparable<T> {
+public abstract class Graph implements GraphI {
 	protected int vertexAmount;
+	
 
 	public int getVertexAmount() {
 		return vertexAmount;
@@ -20,7 +22,7 @@ public abstract class Graph implements GraphI, Comparable<T> {
 				if (i != j) {
 					// Bez warunku na krawedzie juz wygenerowane...
 					// ...z tym radzi sobie juz metoda addEdge
-					int randomWeight = ((random.nextInt() %maxWeight) + maxWeight + 1 )%maxWeight;
+					int randomWeight = ((random.nextInt() % maxWeight) + maxWeight + 1) % maxWeight;
 					graph.addEdge(i, j, randomWeight);
 				}
 			}
@@ -28,14 +30,37 @@ public abstract class Graph implements GraphI, Comparable<T> {
 
 	}
 
-	// Algorytm przegl¹dania zupe³nego (Brute Force)
+	@Override
+	public boolean addEdge(int v, int w, int weight) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeEdge(int v, int w) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getWeight(int v, int w) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void displayGraph() {
+		// TODO Auto-generated method stub
+
+	}
+
 	static ArrayList<Integer> ATSPBruteForce(Graph graph) {
 
 		int[] vertexArray = new int[graph.vertexAmount - 1];
 
 		// Utworzenie "spisu wierzcho³ków dodaj¹c je kolejno do tablicy
 		for (int i = 0; i < graph.vertexAmount - 1; i++) {
-			vertexArray[i] = i+1;
+			vertexArray[i] = i + 1;
 		}
 
 		ArrayList<Integer> minCombination = new ArrayList<Integer>();
@@ -58,7 +83,7 @@ public abstract class Graph implements GraphI, Comparable<T> {
 
 			int route = 0;
 			for (int i = 1; i < combination.size(); i++) {
-				route += graph.getWeight(combination.get(i-1).intValue(), combination.get(i).intValue());
+				route += graph.getWeight(combination.get(i - 1).intValue(), combination.get(i).intValue());
 			}
 
 			if (minRoute == -1 || route < minRoute) {
@@ -70,27 +95,30 @@ public abstract class Graph implements GraphI, Comparable<T> {
 
 		return minCombination;
 	}
-	
-	
-	// Algorytm podzia³u i ograniczeñ wykorzystuj¹cy kolejke priorytetowa i niejawnie utworzone drzewo
-	static ArrayList<Integer> ATSPBranchAndBound(Graph graph){
-		
-		PriorityQueue<ArrayList<Integer>> routeQueue = new PriorityQueue<ArrayList<Integer>>();
-	    ArrayList<Integer> optimalRoute = new ArrayList<Integer>();     // Tu bedziemy zapisywac optymalne (w danej chwili) rozwiazanie
-	    int optimalRouteLength = -1;            // zamiast nieskonczonosci
 
-	    // Kolejne to wierzcholki na trasie Pierwszy element listy to dlugosc trasy
-	    //
+	static ArrayList<Integer> ATSPBranchAndBound(Graph graph)
+	{	
+		
+		LinkedList<ArrayList<Integer>> routeQueue = new LinkedList<ArrayList<Integer>>();
+		ArrayList<Integer> optimalRoute = new ArrayList<Integer>();     // Tu bedziemy zapisywac optymalne (w danej chwili) rozwiazanie
+	    int optimalRouteLength = -1;      // zamiast nieskonczonosci
+	    
+	    
+	    //Pierwszy element listy to dlugosc trasy
+	    // Kolejne to wierzcholki na trasie 
+	    
 	    ArrayList<Integer> currentRoute = new ArrayList<Integer>();     // Niejawne tworzenie drzewa, tu bedzie korzen
 	    currentRoute.add(0);              // Poczatkowe oszacowanie nie ma znaczenia
 	    currentRoute.add(0);              // Wierzcholek startowy (korzen drzewa rozwiazan)
 	    routeQueue.add(currentRoute);          // Dodanie do kolejki korzenia
-
+	    ArrayList<Integer> nextRoute;
+	    
 	    while(!routeQueue.isEmpty())
 	    {
 	        // Przypisanie korzenia oraz jego usuniêcie z kolejki
-	        currentRoute = routeQueue.poll();
-
+	    	currentRoute = routeQueue.getFirst();
+	    	routeQueue.removeFirst();
+	    	
 	        // Sprawdzenie, czy rozwiazanie jest warte rozwijania, czy odrzucic
 	        if(optimalRouteLength == -1 || currentRoute.get(0) < optimalRouteLength)
 	        {
@@ -111,7 +139,7 @@ public abstract class Graph implements GraphI, Comparable<T> {
 	                    continue;
 
 	                // Niejawne utworzenie nowego wezla reprezuntujacego rozpatrywane rozwiazanie...
-	                ArrayList<Integer> nextRoute = currentRoute;
+	                nextRoute = new ArrayList<Integer>(currentRoute);
 	                nextRoute.add(i);
 
 	                // Dalej bedziemy postepowac roznie...
@@ -133,7 +161,7 @@ public abstract class Graph implements GraphI, Comparable<T> {
 	                    if(optimalRouteLength == -1 || nextRoute.get(0) < optimalRouteLength)
 	                    {
 	                        optimalRouteLength = nextRoute.get(0);
-	                        nextRoute.remove(nextRoute.get(0));
+	                        nextRoute.remove(0);
 	                        optimalRoute = nextRoute;
 	                    }
 	                }
@@ -144,7 +172,6 @@ public abstract class Graph implements GraphI, Comparable<T> {
 	                    nextRoute.set(0, 0);
 	                    for(int j = 1; j < nextRoute.size() - 1; j++)
 	                    {
-	                    	
 	                        nextRoute.set(0, nextRoute.get(0) + graph.getWeight(nextRoute.get(j), nextRoute.get(j + 1)));
 	                    }
 
@@ -205,6 +232,7 @@ public abstract class Graph implements GraphI, Comparable<T> {
 	                    if(optimalRouteLength == -1 || nextRoute.get(0) < optimalRouteLength)
 	                    {
 	                        routeQueue.add(nextRoute);
+	                        routeQueue.sort(new ArrayListComparator());
 	                    }
 	                }
 	            }
@@ -218,35 +246,6 @@ public abstract class Graph implements GraphI, Comparable<T> {
 	    }
 
 	    return optimalRoute;
-	}
 	
-	
-	
-	
-	
-
-	@Override
-	public boolean addEdge(int v, int w, int weight) {
-		// TODO Auto-generated method stub
-		return false;
 	}
-
-	@Override
-	public boolean removeEdge(int v, int w) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getWeight(int v, int w) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void displayGraph() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

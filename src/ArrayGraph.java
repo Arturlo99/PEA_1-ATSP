@@ -1,10 +1,9 @@
 
-public class ArrayGraph extends Graph {
+public class ArrayGraph extends Graph{
 	private int[][] neighborhoodMatrix;
 
 	// Konstruktor Klasy Graph
 	public ArrayGraph(int vertexAmount) {
-
 		this.vertexAmount = vertexAmount;
 		this.neighborhoodMatrix = new int[vertexAmount][vertexAmount];
 
@@ -65,5 +64,6 @@ public class ArrayGraph extends Graph {
 	public void setNeighborhoodMatrix(int[][] neighborhoodMatrix) {
 		this.neighborhoodMatrix = neighborhoodMatrix;
 	}
+
 
 }

@@ -1,5 +1,5 @@
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,7 +8,6 @@ public class Main {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws FileNotFoundException {
-		// Graph.generateRandomFullGraph(new Graph(4), 5);
 		int selection;
 		Graph graph = null;
 		final int maxSalesmanDistance = 300;
@@ -18,10 +17,10 @@ public class Main {
 			System.out.println("3. Wyœwietlenie ostatnio wczytanych lub wygenerowanych danych");
 			System.out.println("4. Przegl¹d zupe³ny");
 			System.out.println("5. Podzial i ograniczenia");
-			// System.out.println("6. Przeglad zupelny");
-			// System.out.println("7. Automatyczne pomiary (tabu search)");
-			// System.out.println("8. Wczytaj dane z pliku TSPLIB FULL_MATRIX");
-			// System.out.println("9. Wczytaj dane z pliku TSPLIB EUC_2D");
+			// 
+			// 
+			// 
+			// 
 			System.out.println("Aby zakonczyc - 0");
 			System.out.println("Wprowadz liczbê: ");
 			Scanner sc = new Scanner(System.in);
