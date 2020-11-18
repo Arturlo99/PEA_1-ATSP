@@ -15,11 +15,10 @@ public class ArrayGraph extends Graph{
 	}
 
 	// Metoda tworz¹ca krawêdz pomiêdzy danymi wierzcho³kami o podanej wadze
-	@Override
 	public boolean addEdge(int v, int w, int weight) {
 		if (weight >= 1000)
 			// Waga krawedzi musi byc mniejsza od 1000
-			weight = 900;
+			weight = 999;
 
 		if (this.neighborhoodMatrix[v][w] > 0)
 			return false;
@@ -29,7 +28,6 @@ public class ArrayGraph extends Graph{
 		}
 	}
 
-	@Override
 	public boolean removeEdge(int v, int w) {
 		if (this.neighborhoodMatrix[v][w] == -1)
 			return false;
@@ -40,13 +38,11 @@ public class ArrayGraph extends Graph{
 	}
 
 	// Zwraca wagê krawêdzi
-	@Override
 	public int getWeight(int v, int w) {
 		return neighborhoodMatrix[v][w];
 	}
 
 	// Wypisanie grafu w postaci macierzy s¹siedztwa
-	@Override
 	public void displayGraph() {
 		for (int i = 0; i < vertexAmount; i++) {
 			for (int j = 0; j < vertexAmount; j++) {

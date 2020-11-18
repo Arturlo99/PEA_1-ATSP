@@ -1,5 +1,5 @@
 
-public class nextPermutation {
+public class NextPermutation {
 
 	// Funkcja do zamiany wartoœci w tablicy
 	public static int[] swap(int data[], int left, int right) {
@@ -53,9 +53,9 @@ public class nextPermutation {
 				break;
 			}
 		}
-
+		// zamiana pozycji
 		data = swap(data, nextGreater, last);
-
+		// odwrócenie kolejnoœci podtablicy 
 		data = reverse(data, last + 1, data.length - 1);
 
 		return true;
