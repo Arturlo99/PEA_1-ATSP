@@ -1,5 +1,5 @@
 # PEA_1_ATSP
-Projekt z kursu Projektowanie Efektywnych Algorytmów.
+Projekt z kursu Projektowanie Efektywnych Algorytmów. \\
 Asymetryczny Problem Komiwojażera - Asymetric Travelling Salesman Problem
 Algorytmy / Algorithms:
 - Przegląd zupełny / Brute Force
